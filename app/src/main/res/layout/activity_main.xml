@@ -11,6 +11,42 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/container_filter_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <Button
+                android:id="@+id/system_button"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_red_white_button"
+                android:text="Система"
+                android:textAllCaps="true"
+                android:textColor="#E04A4A"
+                android:textSize="12sp"
+                />
+            <Button
+                android:id="@+id/error_date_button"
+                android:layout_marginHorizontal="15dp"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@drawable/rounded_red_white_button"
+                android:text="Дата выявления"
+                android:textAllCaps="true"
+                android:textSize="12sp"
+                android:textColor="#E04A4A"
+                />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/card_recycler_view"
@@ -19,12 +55,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/container_filter_card_view" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler_view"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -33,6 +69,7 @@
         app:layout_constraintRight_toRightOf="parent"/>
     <View
         android:id="@+id/shade_view"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:clickable="true"
@@ -41,6 +78,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_recycler_view"/>
+        app:layout_constraintTop_toBottomOf="@id/search_recycler_view"
+        android:focusable="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

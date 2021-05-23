@@ -9,4 +9,6 @@
     <string name="status">Статус</string>
     <string name="deviation">Отклонение</string>
     <string name="time_length">Протяжённость</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

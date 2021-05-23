@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.BackgroundColorSpan
-import android.text.style.TextAppearanceSpan
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidapp.model.CardInfo
 import com.example.androidapp.model.DataModel
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -34,8 +34,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var toolbar: Toolbar
     private lateinit var searchView: SearchView
 
-    private var adapter: CardAdapter? = null
-    private var searchAdapter: SearchAdapter? = null
+    private lateinit var systemButton: Button
+    private lateinit var errorDateButton: Button
+
+    var adapter: CardAdapter? = null
+    var searchAdapter: SearchAdapter? = null
 
     private var searchEnable = false
     private var query = ""
@@ -49,6 +52,33 @@ class MainActivity : AppCompatActivity() {
         initViews()
         searchIsEnable(false)
 
+        initRecyclers()
+
+        setSupportActionBar(toolbar)
+        systemButton.setOnClickListener {
+            val bdFragment =
+                SystemSheetFragment.newInstance()
+            bdFragment.show(
+                supportFragmentManager,
+                SystemSheetFragment.TAG
+            )
+        }
+
+        errorDateButton.setOnClickListener {
+            val bdFragment =
+                ErrorDateSheetFragment.newInstance()
+
+            bdFragment.show(
+                supportFragmentManager,
+                ErrorDateSheetFragment.TAG
+            )
+        }
+
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    private fun initRecyclers() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         searchRecyclerView.layoutManager = LinearLayoutManager(this)
         GlobalScope.launch {
@@ -70,10 +100,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        setSupportActionBar(toolbar)
-
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun onDestroy() {
@@ -118,11 +144,10 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.action_search) {
-            Log.d("gog", "R.id.action_search")
             searchIsEnable(true)
-            return true;
+            return true
         }
-        Log.d("gog", "else")
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -131,6 +156,8 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.card_recycler_view)
         toolbar = findViewById(R.id.toolbar)
         shadeView = findViewById(R.id.shade_view)
+        systemButton = findViewById(R.id.system_button)
+        errorDateButton = findViewById(R.id.error_date_button)
     }
 
     inner class CardAdapter(list: List<CardInfo>, val callback: (String) -> Unit) :
@@ -138,7 +165,7 @@ class MainActivity : AppCompatActivity() {
 
         var items = list
 
-        inner class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class CardViewHolder(val itemView: View) : RecyclerView.ViewHolder(itemView) {
             var containerItemCardView: CardView = itemView.findViewById(R.id.item_card_view)
 
             var titleTextView: TextView = itemView.findViewById(R.id.title_text_view)
@@ -148,6 +175,11 @@ class MainActivity : AppCompatActivity() {
             var statusTextView: TextView = itemView.findViewById(R.id.status_text_view)
 
             fun bind(cardInfo: CardInfo) {
+//                if (DataModel.extList.size != 0 && !DataModel.extList.contains(cardInfo.extsysname)) {
+//                    itemView.visibility = View.GONE
+//                } else {
+//                    itemView.visibility = View.VISIBLE
+//                }
                 containerItemCardView.setOnClickListener {
                     callback(cardInfo.ticketid)
                 }

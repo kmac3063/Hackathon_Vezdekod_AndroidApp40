@@ -3,13 +3,9 @@ package com.example.androidapp.model
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
-import android.os.Environment
-import android.util.JsonReader
 import android.util.Log
 import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat.checkSelfPermission
 import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
@@ -45,10 +41,22 @@ object DataModel {
 
     private var activity: Activity? = null
 
-    private var userList: MutableList<CardInfo> = ArrayList()
+    var cardList: MutableList<CardInfo> = ArrayList()
 
     fun onAttach(activity: Activity) {
         this.activity = activity
+    }
+
+    var extList = ArrayList<String>().toMutableList()
+
+    fun addChecked(str: String, b: Boolean) {
+        var b1 = b
+        for (s in extList) {
+            if (s == str)
+                b1 = false
+        }
+        if (b1)
+            extList.add(str)
     }
 
     fun onDetach() {
@@ -90,13 +98,13 @@ object DataModel {
 
         val gson = Gson()
 
-        userList = gson.fromJson<List<CardInfo>>(json).toMutableList()
-        Log.d("gog", userList.toString())
-        return userList
+        cardList = gson.fromJson<List<CardInfo>>(json).toMutableList()
+        Log.d("gog", cardList.toString())
+        return cardList
     }
 
     fun getCardById(id: String): CardInfo {
-        return userList.find { card -> card.ticketid == id }!!
+        return cardList.find { card -> card.ticketid == id }!!
     }
 
     private fun checkPermissions() {
